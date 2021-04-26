@@ -56,3 +56,10 @@ function findByArtist(artist) {
 
 console.log('Expect 2 results to be returned:', findByArtist('Tool'));
 console.log('Expect an empty array:', findByArtist('Mudvayne'));
+
+
+// <--- S t r e t c h   G o a l s ---> //
+
+function search() {
+  return collection;
+}
