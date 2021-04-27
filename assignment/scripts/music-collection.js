@@ -60,6 +60,33 @@ console.log('Expect an empty array:', findByArtist('Mudvayne'));
 
 // <--- S t r e t c h   G o a l s ---> //
 
-function search() {
-  return collection;
+
+function search(searchCriteria) {
+  let searchMatches = [];
+  let titleCount = 0;
+  let artistCount = 0;
+  let yearCount = 0;
+  for (let i = 0; i < collection.length; i++) {
+    if (searchCriteria.title === collection[i].title && titleCount < 1) {
+      searchMatches.push(collection[i].title);
+      titleCount += 1;
+
+    } if (searchCriteria.artist === collection[i].artist && artistCount < 1) {
+      searchMatches.push(collection[i].artist);
+      artistCount += 1;
+
+    } if (searchCriteria.year === collection[i].year && artistCount < 1) {
+      searchMatches.push(collection[i].year);
+      yearCount += 1;
+
+    }
+  }
+  if (searchMatches.length === 0) {
+    return collection;
+  } else {
+    return searchMatches;
+  }
 }
+
+console.log(search({title: '10,000 Days', artist: 'Tool'}));
+console.log(search({title: 'Yay', artist: 'Yay'}));
