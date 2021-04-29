@@ -70,9 +70,11 @@ console.log('Expect an empty array:', findByArtist('Mudvayne'));
 function search(searchCriteria) {
   let searchMatches = [];
 
-  // We're evaluating each possible out below.
+  // We're evaluating each possible outcome below.
 
+  // The first outcome we're testing against is if artist, year, title all match.
   if (searchCriteria.artist && searchCriteria.year && searchCriteria.title) {
+    // We use our standard for loop to loop over all of collection
      for (let i = 0; i < collection.length; i++) {
        if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
          searchMatches.push(collection[i]);
@@ -124,31 +126,23 @@ function search(searchCriteria) {
 
 // Testing search()
 
-console.log('Expected return, both Tool album', search({artist: 'Tool'}));
-console.log('Expected return, 10,000 Days album', search({artist: 'Tool', title: '10,000 Days'}));
-console.log('Expected return, empty array', search({artist: 'Tool', title: '10,000 Days', year: 2000}));
-console.log('Expected return, empty array', search({artist: 'Tool', title: '20,000 Days', year: 2000}));
-console.log('Expected return, empty array', search({artist: 'Jay-Z', title: '20,000 Days', year: 2000}));
-
-console.log('Expected return is collection array:', search({title: 'Lateralus', artist: 'Tool', year: 2006}));
-console.log('Expected return is collection array:', search({title: 'Yay', artist: 'Tool'}));
-console.log('Expected return is {title: "Battles", artist: "In Flames", year: 2016}', search({title: 'Battles'}));
+// title
+// artist
+// year
+// title and artist
+// title and year
+// year and artist
+// title, artist, and year
 
 
+console.log('Expected return - {title: "10,000 Days", artist: "Tool", year: 2006}:', search({title: '10,000 Days'})); // title
+console.log('Expected return - Both Tool Albums:', search({artist: 'Tool'})); // artist
+console.log('Expected return - {title: "The Slim Shady LP", artist: "Eminem", year: 1999}:', search({year: 1999})); // year
+console.log('Expected return - {title: "A Sense of Purpose", artist: "In Flames", year: 2008}:', search({title: 'A Sense of Purpose', artist: 'In Flames'})); // title and artist
+console.log('Expected return - {title: "Electric Tears", artist: "Buckethead", year: 2002}:', search({title: 'Electric Tears',  year: 2002})); // title and year
+console.log('Expected return - {title: "Lateralus", artist: "Tool", year: 2001}:', search({year: 2001, artist: 'Tool'})); // year and artist
+console.log('Expected return - {title: "Battles", artist: "In Flames", year: 2016}:', search({title: 'Battles', artist: 'In Flames', year: 2016})); // title, artist, and year
 
-// function search(searchCriteria) {
-//   let searchMatches = [];
-//   let search_values = new Set();
-//   search_values.add(Object.values(searchCriteria));
-//   console.log(search_values);
-//
-//   for (let item in collection) {
-//     let list_values = new Set();
-//     list_values.add(Object.values(item));
-//     console.log(list_values);
-//     if(search_values.every(r => list_values.includes(r))) {
-//       let match = item;
-//       searchMatches.push(match);
-//       }
-//     }
-// }
+// Testing search() with one correct input and one wrong input
+
+console.log('Expected return - collection array:');
