@@ -67,62 +67,93 @@ console.log('Expect an empty array:', findByArtist('Mudvayne'));
 // year and artist
 // title, artist, and year
 
+
 function search(searchCriteria) {
-  let searchMatches = [];
-
-  // We're evaluating each possible outcome below.
-
-  // The first outcome we're testing against is if artist, year, title all match.
-  if (searchCriteria.artist && searchCriteria.year && searchCriteria.title) {
-    // We use our standard for loop to loop over all of collection
-     for (let i = 0; i < collection.length; i++) {
-       if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
-         searchMatches.push(collection[i]);
-       }
-     }
-  } else if (searchCriteria.artist && searchCriteria.year) {
-      for (let i = 0; i < collection.length; i++) {
-        if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year) {
-          searchMatches.push(collection[i]);
-        }
-      }
-  } else if (searchCriteria.artist && searchCriteria.title) {
-      for (let i = 0; i < collection.length; i++) {
-        if(searchCriteria.artist === collection[i].artist && searchCriteria.title === collection[i].title) {
-          searchMatches.push(collection[i]);
-        }
-      }
-  } else if (searchCriteria.year && searchCriteria.title) {
-    for (let i = 0; i < collection.length; i++) {
-      if(searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
-        searchMatches.push(collection[i]);
+  const results = [];
+  // Loop through all objects of collection array.
+  collection.forEach((obj) => {
+    // Assume match is true.
+    let matched = true;
+    // Loop through keys of search object.
+    for (let key of Object.keys(searchCriteria)) {
+      // Set matched value
+      matched = obj[key] === searchCriteria[key];
+      // If not matched break loop.
+      if (!matched) {
+        break;
       }
     }
-  } else if (searchCriteria.artist) {
-      for (let i = 0; i < collection.length; i++) {
-        if(searchCriteria.artist === collection[i].artist) {
-          searchMatches.push(collection[i]);
-        }
-      }
-  } else if (searchCriteria.year) {
-      for (let i = 0; i < collection.length; i++) {
-        if(searchCriteria.year === collection[i].year) {
-          searchMatches.push(collection[i]);
-        }
-      }
-  } else if (searchCriteria.title) {
-      for (let i = 0; i < collection.length; i++) {
-        if(searchCriteria.title === collection[i].title) {
-          searchMatches.push(collection[i]);
-        }
-      }
+    // If matched is true after looping through all keys then add to results.
+    if (matched) {
+      results.push(obj);
     }
-  if(searchMatches.length === 0) {
+  });
+  if (results.length === 0) {
     return collection;
   } else {
-    return searchMatches;
+    return results;
   }
 }
+
+// Below is the first function I came up with.
+
+// function search(searchCriteria) {
+//   let searchMatches = [];
+//
+//   // We're evaluating each possible outcome below.
+//
+//   // The first outcome we're testing against is if artist, year, title all match.
+//   if (searchCriteria.artist && searchCriteria.year && searchCriteria.title) {
+//     // We use our standard for loop to loop over all of collection
+//      for (let i = 0; i < collection.length; i++) {
+//        if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
+//          searchMatches.push(collection[i]);
+//        }
+//      }
+//   } else if (searchCriteria.artist && searchCriteria.year) {
+//       for (let i = 0; i < collection.length; i++) {
+//         if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year) {
+//           searchMatches.push(collection[i]);
+//         }
+//       }
+//   } else if (searchCriteria.artist && searchCriteria.title) {
+//       for (let i = 0; i < collection.length; i++) {
+//         if(searchCriteria.artist === collection[i].artist && searchCriteria.title === collection[i].title) {
+//           searchMatches.push(collection[i]);
+//         }
+//       }
+//   } else if (searchCriteria.year && searchCriteria.title) {
+//     for (let i = 0; i < collection.length; i++) {
+//       if(searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
+//         searchMatches.push(collection[i]);
+//       }
+//     }
+//   } else if (searchCriteria.artist) {
+//       for (let i = 0; i < collection.length; i++) {
+//         if(searchCriteria.artist === collection[i].artist) {
+//           searchMatches.push(collection[i]);
+//         }
+//       }
+//   } else if (searchCriteria.year) {
+//       for (let i = 0; i < collection.length; i++) {
+//         if(searchCriteria.year === collection[i].year) {
+//           searchMatches.push(collection[i]);
+//         }
+//       }
+//   } else if (searchCriteria.title) {
+//       for (let i = 0; i < collection.length; i++) {
+//         if(searchCriteria.title === collection[i].title) {
+//           searchMatches.push(collection[i]);
+//         }
+//       }
+//     }
+//   if(searchMatches.length === 0) {
+//     return collection;
+//   } else {
+//     return searchMatches;
+//   }
+// }
+
 
 // Testing search()
 
@@ -143,6 +174,12 @@ console.log('Expected return - {title: "Electric Tears", artist: "Buckethead", y
 console.log('Expected return - {title: "Lateralus", artist: "Tool", year: 2001}:', search({year: 2001, artist: 'Tool'})); // year and artist
 console.log('Expected return - {title: "Battles", artist: "In Flames", year: 2016}:', search({title: 'Battles', artist: 'In Flames', year: 2016})); // title, artist, and year
 
-// Testing search() with one correct input and one wrong input
+// Testing search() with wrong inputs
 
-console.log('Expected return - collection array:');
+console.log('Expected return - collection array:', search({title: '20,000 Days'})); // title
+console.log('Expected return - collection array:', search({artist: 'Jewel'})); // artist
+console.log('Expected return - collection array:', search({year: 2021})); // year
+console.log('Expected return - collection array:', search({title: 'A Sense of Purpose', artist: 'Johnny Cash'})); // title and artist
+console.log('Expected return - collection array:', search({title: 'Electric Tears',  year: 2005})); // title and year
+console.log('Expected return - collection array:', search({year: 2001, artist: 'Creed'})); // year and artist
+console.log('Expected return - collection array:', search({title: 'Not Again', artist: 'In Flames', year: 2016})); // title, artist, and year
