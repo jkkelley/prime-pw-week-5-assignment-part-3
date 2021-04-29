@@ -59,34 +59,96 @@ console.log('Expect an empty array:', findByArtist('Mudvayne'));
 
 
 // <--- S t r e t c h   G o a l s ---> //
-
+// title
+// artist
+// year
+// title and artist
+// title and year
+// year and artist
+// title, artist, and year
 
 function search(searchCriteria) {
   let searchMatches = [];
-  let titleCount = 0;
-  let artistCount = 0;
-  let yearCount = 0;
-  for (let i = 0; i < collection.length; i++) {
-    if (searchCriteria.title === collection[i].title && titleCount < 1) {
-      searchMatches.push(collection[i].title);
-      titleCount += 1;
 
-    } if (searchCriteria.artist === collection[i].artist && artistCount < 1) {
-      searchMatches.push(collection[i].artist);
-      artistCount += 1;
+  // We're evaluating each possible out below.
 
-    } if (searchCriteria.year === collection[i].year && artistCount < 1) {
-      searchMatches.push(collection[i].year);
-      yearCount += 1;
-
+  if (searchCriteria.artist && searchCriteria.year && searchCriteria.title) {
+     for (let i = 0; i < collection.length; i++) {
+       if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
+         searchMatches.push(collection[i]);
+       }
+     }
+  } else if (searchCriteria.artist && searchCriteria.year) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year) {
+          searchMatches.push(collection[i]);
+        }
+      }
+  } else if (searchCriteria.artist && searchCriteria.title) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.artist === collection[i].artist && searchCriteria.title === collection[i].title) {
+          searchMatches.push(collection[i]);
+        }
+      }
+  } else if (searchCriteria.year && searchCriteria.title) {
+    for (let i = 0; i < collection.length; i++) {
+      if(searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
+        searchMatches.push(collection[i]);
+      }
     }
-  }
-  if (searchMatches.length === 0) {
+  } else if (searchCriteria.artist) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.artist === collection[i].artist) {
+          searchMatches.push(collection[i]);
+        }
+      }
+  } else if (searchCriteria.year) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.year === collection[i].year) {
+          searchMatches.push(collection[i]);
+        }
+      }
+  } else if (searchCriteria.title) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.title === collection[i].title) {
+          searchMatches.push(collection[i]);
+        }
+      }
+    }
+  if(searchMatches.length === 0) {
     return collection;
   } else {
     return searchMatches;
   }
 }
 
-console.log(search({title: '10,000 Days', artist: 'Tool'}));
-console.log(search({title: 'Yay', artist: 'Yay'}));
+// Testing search()
+
+console.log('Expected return, both Tool album', search({artist: 'Tool'}));
+console.log('Expected return, 10,000 Days album', search({artist: 'Tool', title: '10,000 Days'}));
+console.log('Expected return, empty array', search({artist: 'Tool', title: '10,000 Days', year: 2000}));
+console.log('Expected return, empty array', search({artist: 'Tool', title: '20,000 Days', year: 2000}));
+console.log('Expected return, empty array', search({artist: 'Jay-Z', title: '20,000 Days', year: 2000}));
+
+console.log('Expected return is collection array:', search({title: 'Lateralus', artist: 'Tool', year: 2006}));
+console.log('Expected return is collection array:', search({title: 'Yay', artist: 'Tool'}));
+console.log('Expected return is {title: "Battles", artist: "In Flames", year: 2016}', search({title: 'Battles'}));
+
+
+
+// function search(searchCriteria) {
+//   let searchMatches = [];
+//   let search_values = new Set();
+//   search_values.add(Object.values(searchCriteria));
+//   console.log(search_values);
+//
+//   for (let item in collection) {
+//     let list_values = new Set();
+//     list_values.add(Object.values(item));
+//     console.log(list_values);
+//     if(search_values.every(r => list_values.includes(r))) {
+//       let match = item;
+//       searchMatches.push(match);
+//       }
+//     }
+// }
