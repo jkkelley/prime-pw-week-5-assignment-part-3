@@ -32,13 +32,13 @@ let collection = [];
 // I didn't quite like this way of doing it, so I came up with another way to do it.
 // I'm really looking forward to see how we tackle this in next week's meeting.
 
-// // We added the rest parameter to be able to take in as many tracks as needed.
+// // We added the spread parameter to be able to take in as many tracks as needed.
 // function addToCollection (title, artist, yearPublished, ...tracks) {
 //   let bandName = {
 //     title: title,
 //     artist: artist,
 //     year: yearPublished,
-//     // Using the rest parameter automatically generates an array for us.
+//     // Using the spread parameter automatically generates an array for us.
 //     tracks: tracks
 //   }
 //   collection.push(bandName);
@@ -84,13 +84,21 @@ let collection = [];
 // Updated addToCollection() version 1.2
 
 // This way keeps our function nice and neat. If we pulled Data from an api and formatted it with json lint,
-// we'd be able to take what data we wanted using this method below.
+// we'd be able to take what data we wanted using this function below.
 
 function addToCollection({title, artist, year, tracks}) {
   // console.log(title, artist, year, tracks);
   collection.push({title, artist, year, tracks});
   return collection;
 }
+
+/*
+
+  We could put this information below in another file and call it here. I'd need to update the function to perform
+  this action. Another approach to this function would be Object-oriented-programming. Setting this function
+  up with a Class seems to be a cleaner way to do this. I need to look further into on how to accomplish this with JavaScript.
+
+*/
 
 const tool1 = {
   title: '10,000 Days',
@@ -203,15 +211,35 @@ console.log('Expect 2 results to be returned:', findByArtist('Tool'));
 console.log('Expect an empty array:', findByArtist('Mudvayne'));
 
 
-// <--- S t r e t c h   G o a l s ---> //
-// title
-// artist
-// year
-// title and artist
-// title and year
-// year and artist
-// title, artist, and year
+/*          <--- S t r e t c h   G o a l s --->
 
+  title
+  artist
+  year
+  title and artist
+  title and year
+  year and artist
+  title, artist, and year
+
+  This is the second search() I came up with.
+
+
+  I have the sudo code for making the search() to be able to take in another level,
+  I just don't know how to implement it. I tried all kinds of things, I believe that I'd
+  need another for loop but I couldn't get it to work. I spent quite a bit of
+  time working on this problem this week to gain a better understanding of how Tree or
+  node structuring works.
+
+  We would need to look at this problem like a tree structure. The top level or root would
+  be the collection object itself. Below would be it children, tracks would be a parent to
+  it's children name and duration. It should look a like this.
+
+                              root(collection)
+                    /         /        \       \
+                  title     artist     year    tracks
+                                              /      \
+                                            name    duration
+*/
 
 function search(searchCriteria) {
   const results = [];
@@ -240,75 +268,79 @@ function search(searchCriteria) {
   }
 }
 
-// Below is the first function I came up with.
+/* Below is the first search() I came up with.
 
-// function search(searchCriteria) {
-//   let searchMatches = [];
-//
-//   // We're evaluating each possible outcome below.
-//
-//   // The first outcome we're testing against is if artist, year, title all match.
-//   if (searchCriteria.artist && searchCriteria.year && searchCriteria.title) {
-//     // We use our standard for loop to loop over all of collection
-//      for (let i = 0; i < collection.length; i++) {
-//        if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
-//          searchMatches.push(collection[i]);
-//        }
-//      }
-//   } else if (searchCriteria.artist && searchCriteria.year) {
-//       for (let i = 0; i < collection.length; i++) {
-//         if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year) {
-//           searchMatches.push(collection[i]);
-//         }
-//       }
-//   } else if (searchCriteria.artist && searchCriteria.title) {
-//       for (let i = 0; i < collection.length; i++) {
-//         if(searchCriteria.artist === collection[i].artist && searchCriteria.title === collection[i].title) {
-//           searchMatches.push(collection[i]);
-//         }
-//       }
-//   } else if (searchCriteria.year && searchCriteria.title) {
-//     for (let i = 0; i < collection.length; i++) {
-//       if(searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
-//         searchMatches.push(collection[i]);
-//       }
-//     }
-//   } else if (searchCriteria.artist) {
-//       for (let i = 0; i < collection.length; i++) {
-//         if(searchCriteria.artist === collection[i].artist) {
-//           searchMatches.push(collection[i]);
-//         }
-//       }
-//   } else if (searchCriteria.year) {
-//       for (let i = 0; i < collection.length; i++) {
-//         if(searchCriteria.year === collection[i].year) {
-//           searchMatches.push(collection[i]);
-//         }
-//       }
-//   } else if (searchCriteria.title) {
-//       for (let i = 0; i < collection.length; i++) {
-//         if(searchCriteria.title === collection[i].title) {
-//           searchMatches.push(collection[i]);
-//         }
-//       }
-//     }
-//   if(searchMatches.length === 0) {
-//     return collection;
-//   } else {
-//     return searchMatches;
-//   }
-// }
+function search(searchCriteria) {
+  let searchMatches = [];
 
+  // We're evaluating each possible outcome below.
 
-// Testing search()
+  // The first outcome we're testing against is if artist, year, title all match.
+  // We repeat this for all of our outcomes that I listed above.
+  if (searchCriteria.artist && searchCriteria.year && searchCriteria.title) {
+    // We use our standard for loop to loop over all of collection
+     for (let i = 0; i < collection.length; i++) {
+       if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
+         searchMatches.push(collection[i]);
+       }
+     }
+  } else if (searchCriteria.artist && searchCriteria.year) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.artist === collection[i].artist && searchCriteria.year === collection[i].year) {
+          searchMatches.push(collection[i]);
+        }
+      }
+  } else if (searchCriteria.artist && searchCriteria.title) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.artist === collection[i].artist && searchCriteria.title === collection[i].title) {
+          searchMatches.push(collection[i]);
+        }
+      }
+  } else if (searchCriteria.year && searchCriteria.title) {
+    for (let i = 0; i < collection.length; i++) {
+      if(searchCriteria.year === collection[i].year && searchCriteria.title === collection[i].title) {
+        searchMatches.push(collection[i]);
+      }
+    }
+  } else if (searchCriteria.artist) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.artist === collection[i].artist) {
+          searchMatches.push(collection[i]);
+        }
+      }
+  } else if (searchCriteria.year) {
+      for (let i = 0; i < collect// Below we're using ion.length; i++) {
+        if(searchCriteria.year === collection[i].year) {
+          searchMatches.push(collection[i]);
+        }
+      }
+  } else if (searchCriteria.title) {
+      for (let i = 0; i < collection.length; i++) {
+        if(searchCriteria.title === collection[i].title) {
+          searchMatches.push(collection[i]);
+        }
+      }
+    }
+  if(searchMatches.length === 0) {
+    return collection;
+  } else {
+    return searchMatches;
+  }
+}
 
-// title
-// artist
-// year
-// title and artist
-// title and year
-// year and artist
-// title, artist, and year
+*/
+
+/* Testing search()
+
+title
+artist
+year
+title and artist
+title and year
+year and artist
+title, artist, and year
+
+*/
 
 
 console.log('Expected return - {title: "10,000 Days", artist: "Tool", year: 2006}:', search({title: '10,000 Days'})); // title
@@ -328,3 +360,6 @@ console.log('Expected return - collection array:', search({title: 'A Sense of Pu
 console.log('Expected return - collection array:', search({title: 'Electric Tears',  year: 2005})); // title and year
 console.log('Expected return - collection array:', search({year: 2001, artist: 'Creed'})); // year and artist
 console.log('Expected return - collection array:', search({title: 'Not Again', artist: 'In Flames', year: 2016})); // title, artist, and year
+
+// Object.keys(collection[0].tracks)
+// console.log(search({track: {name:'Sleepless Again'}}));
